@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (email === adminEmail && password === adminPassword) {
                 console.log("Login successful. Redirecting to admin.html...");
                 localStorage.setItem('isAdminLoggedIn', 'true');
-                window.location.replace('../admin.html');
+                window.location.replace('admin.html');
             } else {
                 console.log("Login failed: Invalid credentials.");
                 errorMessage.textContent = 'Invalid email or password.';
