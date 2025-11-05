@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return await response.json();
         } catch (error) {
             console.error('Fetch error:', error);
-            if(productListContainer) productListContainer.innerHTML = '<tr><td colspan="4" class="px-4 py-4 text-sm text-center text-red-500">Gagal memuat data.</td></tr>';
+            if(productListContainer) productListContainer.innerHTML = '<tr><td colspan="4" class="text-center">Gagal memuat data.</td></tr>';
             return [{ products: [] }]; // Return object with empty products on error
         }
     }
@@ -159,27 +159,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!productListContainer) return;
         productListContainer.innerHTML = '';
         if (!products || products.length === 0) {
-            productListContainer.innerHTML = '<tr><td colspan="4" class="px-4 py-4 text-sm text-center text-gray-500">Tidak ada produk. Tambahkan satu menggunakan formulir di atas.</td></tr>';
+            productListContainer.innerHTML = '<tr><td colspan="4" class="text-center">Tidak ada produk. Tambahkan satu menggunakan formulir di atas.</td></tr>';
             return;
         }
 
         products.forEach((product, index) => {
             const productEl = document.createElement('tr');
-            productEl.className = 'align-middle';
             productEl.innerHTML = `
-                <td class="p-4 whitespace-nowrap">
-                    <img src="${product.image || 'https://picsum.photos/100/100'}" alt="${product.name}" class="w-16 h-16 object-cover rounded-md">
+                <td>
+                    <img src="${product.image || 'https://picsum.photos/100/100'}" alt="${product.name}">
                 </td>
-                <td class="p-4 whitespace-nowrap">
+                <td>
                     <p class="font-bold">${product.name}</p>
                 </td>
-                <td class="p-4 whitespace-nowrap text-sm text-gray-600">
+                <td>
                     Rp${parseFloat(product.price).toLocaleString('id-ID')}
                 </td>
-                <td class="p-4 whitespace-nowrap">
-                    <div class="flex items-center gap-2">
-                        <button data-index="${index}" class="edit-btn bg-blue-500 text-white px-3 py-1.5 rounded-md text-sm">Edit</button>
-                        <button data-index="${index}" class="delete-btn bg-red-500 text-white px-3 py-1.5 rounded-md text-sm">Hapus</button>
+                <td>
+                    <div class="admin-actions">
+                        <button data-index="${index}" class="edit-btn btn btn-info">Edit</button>
+                        <button data-index="${index}" class="delete-btn btn btn-danger">Hapus</button>
                     </div>
                 </td>
             `;

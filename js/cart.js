@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!cartItemsContainer) return;
 
         if (cart.length === 0) {
-            cartItemsContainer.innerHTML = '<p class="text-gray-500 text-center">Keranjang Anda kosong.</p>';
+            cartItemsContainer.innerHTML = '<p class="text-center">Keranjang Anda kosong.</p>';
             updateSummary(0);
             return;
         }
@@ -18,22 +18,20 @@ document.addEventListener('DOMContentLoaded', () => {
         cartItemsContainer.innerHTML = '';
         let subtotal = 0;
 
-        // In a real cart, items would be grouped by ID with a quantity.
-        // For this simple version, we'll list every item added.
         cart.forEach((item, index) => {
             const itemElement = document.createElement('div');
-            itemElement.className = 'flex items-center justify-between py-4 border-b border-gray-200';
+            itemElement.className = 'cart-item';
             itemElement.innerHTML = `
-                <div class="flex items-center gap-4">
-                    <img src="${item.image || 'https://picsum.photos/100/100'}" alt="${item.name}" class="w-20 h-20 object-cover rounded-md">
+                <div class="cart-item-details">
+                    <img src="${item.image || 'https://picsum.photos/100/100'}" alt="${item.name}">
                     <div>
-                        <h3 class="font-semibold text-gray-800">${item.name}</h3>
-                        <p class="text-sm text-gray-500">Harga: Rp${parseFloat(item.price).toLocaleString('id-ID')}</p>
+                        <h3 class="font-bold">${item.name}</h3>
+                        <p>Harga: Rp${parseFloat(item.price).toLocaleString('id-ID')}</p>
                     </div>
                 </div>
-                <div class="flex items-center gap-4">
-                     <p class="font-semibold text-gray-800">Rp${parseFloat(item.price).toLocaleString('id-ID')}</p>
-                    <button data-index="${index}" class="remove-item-btn text-gray-400 hover:text-red-500 text-2xl font-bold">&times;</button>
+                <div style="text-align: right;">
+                    <p class="font-bold">Rp${parseFloat(item.price).toLocaleString('id-ID')}</p>
+                    <button data-index="${index}" class="remove-item-btn">&times;</button>
                 </div>
             `;
             cartItemsContainer.appendChild(itemElement);
@@ -53,6 +51,21 @@ document.addEventListener('DOMContentLoaded', () => {
         cart = cart.filter((_, index) => index !== indexToRemove);
         localStorage.setItem('cart', JSON.stringify(cart));
         renderCart();
+        // Also update the count in the header if it exists on another page
+        updateCartCountHeader(); 
+    }
+
+    // This function is for other pages, but good to have a single source of truth
+    function updateCartCountHeader() {
+        const cartCountElement = document.getElementById('cart-count');
+        if (!cartCountElement) return;
+        const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+        if (currentCart.length > 0) {
+            cartCountElement.textContent = currentCart.length;
+            cartCountElement.classList.remove('hidden');
+        } else {
+            cartCountElement.classList.add('hidden');
+        }
     }
 
     if (cartItemsContainer) {

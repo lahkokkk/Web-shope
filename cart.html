@@ -4,65 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keranjang Belanja - Aika Shop</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
-<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+<body>
 
     <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-10">
-        <nav class="container mx-auto px-4 sm:px-6 py-3">
-            <div class="flex justify-between items-center">
-                <!-- Logo -->
-                <a href="index.html" class="text-2xl font-bold text-red-800">Aika Shop</a>
-                
-                <!-- Right side links -->
-                <div class="flex items-center space-x-4">
-                     <a href="index.html" class="text-gray-600 hover:text-red-800">Lanjut Belanja</a>
+    <header class="site-header">
+        <nav>
+             <div class="container">
+                <a href="index.html" class="logo">Aika Shop</a>
+                <div class="header-nav">
+                     <a href="index.html">Lanjut Belanja</a>
+                     <button class="theme-toggle-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </button>
                 </div>
             </div>
         </nav>
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 sm:px-6 py-8 flex-grow">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6">Keranjang Belanja Anda</h1>
-        <div class="flex flex-col lg:flex-row gap-8">
+    <main class="container">
+        <h1 class="mb-6">Keranjang Belanja Anda</h1>
+        <div class="cart-layout">
             <!-- Cart Items -->
-            <div id="cart-items-container" class="lg:w-2/3 bg-white p-6 rounded-lg shadow-md">
+            <div id="cart-items-container" class="card cart-items">
                 <!-- Items will be injected here -->
-                <p class="text-gray-500">Keranjang Anda kosong.</p>
+                <p class="text-center">Memuat keranjang...</p>
             </div>
 
             <!-- Order Summary -->
-            <div class="lg:w-1/3">
-                <div class="bg-white p-6 rounded-lg shadow-md sticky top-24">
-                    <h2 class="text-xl font-semibold mb-4 text-gray-800">Ringkasan Pesanan</h2>
-                    <div class="flex justify-between mb-2 text-gray-600">
+            <div class="cart-summary">
+                <div class="card">
+                    <h2 class="mb-4">Ringkasan Pesanan</h2>
+                    <div style="display: flex; justify-content: space-between;" class="mb-2">
                         <span>Subtotal</span>
                         <span id="cart-subtotal">Rp0</span>
                     </div>
-                    <div class="flex justify-between mb-2 text-gray-600">
+                    <div style="display: flex; justify-content: space-between;" class="mb-2">
                         <span>Pengiriman</span>
-                        <span>Dihitung saat checkout</span>
+                        <span>Gratis</span>
                     </div>
-                    <hr class="my-4 border-gray-200">
-                    <div class="flex justify-between font-bold text-lg text-gray-800">
+                    <hr style="margin: 1rem 0; border-color: var(--border-color);">
+                    <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem;">
                         <span>Total</span>
                         <span id="cart-total">Rp0</span>
                     </div>
-                    <button class="w-full mt-6 bg-red-800 text-white py-2 rounded-lg hover:bg-red-900 font-semibold">Lanjutkan ke Checkout</button>
+                    <button class="btn btn-primary mt-6" style="width: 100%;">Lanjutkan ke Checkout</button>
                 </div>
             </div>
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white mt-12 py-8">
-        <div class="container mx-auto px-6 text-center text-gray-600">
+    <footer style="background-color: var(--bg-secondary); margin-top: 3rem; padding: 2rem 0;">
+        <div class="container text-center">
             <p>&copy; 2024 Aika Shop. Hak cipta dilindungi undang-undang.</p>
         </div>
     </footer>
 
+    <script src="js/theme.js" defer></script>
     <script src="js/cart.js"></script>
 </body>
 </html>

@@ -34,8 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function addToCart(productId) {
         const productToAdd = allProducts.find(p => p.id.toString() === productId.toString());
         if (productToAdd) {
-            // In a real app, you'd check if the item is already in the cart and increase quantity.
-            // For this version, we'll just add it.
             cart.push(productToAdd);
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
@@ -76,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displayProducts(allProducts);
         } catch (error) {
             console.error('Error fetching products:', error);
-            if (productGrid) productGrid.innerHTML = `<p class="col-span-full text-center text-red-500">Gagal memuat produk.</p>`;
+            if (productGrid) productGrid.innerHTML = `<p class="text-center">Gagal memuat produk.</p>`;
         }
     }
 
@@ -85,19 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!productGrid) return;
         productGrid.innerHTML = '';
         if (!products || products.length === 0) {
-            productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500">Tidak ada produk yang ditemukan.</p>`;
+            productGrid.innerHTML = `<p class="text-center">Tidak ada produk yang ditemukan.</p>`;
             return;
         }
         products.forEach(product => {
             const productCard = `
-                <div class="bg-white rounded-lg shadow-md overflow-hidden product-card flex flex-col cursor-pointer" data-id="${product.id}">
-                    <img src="${product.image || 'https://picsum.photos/400/300'}" alt="${product.name}" class="w-full h-48 object-cover">
-                    <div class="p-4 flex flex-col flex-grow">
-                        <h3 class="text-lg font-semibold text-gray-800 truncate">${product.name}</h3>
-                        <p class="text-gray-600 mt-1 text-sm flex-grow">${(product.description || '').substring(0, 50)}...</p>
-                        <div class="mt-4 flex flex-wrap gap-2 items-center justify-between">
-                            <span class="text-xl font-bold text-red-800">Rp${parseFloat(product.price).toLocaleString('id-ID')}</span>
-                            <button class="add-to-cart-btn bg-red-800 text-white px-3 py-1.5 rounded-md hover:bg-red-900 text-sm w-full sm:w-auto" data-id="${product.id}">Tambah ke Keranjang</button>
+                <div class="product-card" data-id="${product.id}">
+                    <img src="${product.image || 'https://picsum.photos/400/300'}" alt="${product.name}">
+                    <div class="product-card-content">
+                        <h3>${product.name}</h3>
+                        <p>${(product.description || '').substring(0, 50)}...</p>
+                        <div class="product-card-footer">
+                            <span class="product-price">Rp${parseFloat(product.price).toLocaleString('id-ID')}</span>
+                            <button class="add-to-cart-btn btn btn-primary" data-id="${product.id}">Tambah</button>
                         </div>
                     </div>
                 </div>

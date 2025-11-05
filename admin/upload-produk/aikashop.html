@@ -4,96 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aika Shop - Panel Admin</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../../styles/style.css">
 </head>
-<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+<body>
 
     <!-- Login Modal/Overlay -->
-    <div id="login-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center z-50 p-4">
-        <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Login Admin</h2>
+    <div id="login-overlay" class="login-overlay">
+        <div class="card" style="width: 100%; max-width: 450px;">
+            <h2 class="text-center mb-6">Login Admin</h2>
             <form id="login-form">
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                    <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
                 </div>
-                <div class="mb-6">
-                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Kata Sandi</label>
-                    <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" required>
+                <div class="form-group">
+                    <label for="password">Kata Sandi</label>
+                    <input type="password" id="password" name="password" class="form-input" required>
                 </div>
-                <div class="flex items-center justify-between">
-                    <button type="submit" class="bg-red-800 hover:bg-red-900 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-full">
-                        Masuk
-                    </button>
-                </div>
-                <p id="error-message" class="text-red-500 text-xs italic mt-4 text-center"></p>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk</button>
+                <p id="error-message" class="text-center" style="color: #dc2626; margin-top: 1rem;"></p>
             </form>
         </div>
     </div>
 
     <!-- Main Admin Content (Initially Hidden) -->
-    <div id="admin-content" class="hidden flex-grow flex flex-col">
+    <div id="admin-content" class="hidden">
         <!-- Header -->
-        <header class="bg-white shadow-md">
-            <div class="container mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-                <h1 class="text-xl sm:text-2xl font-bold text-gray-800">Panel Admin</h1>
-                <div class="flex items-center space-x-4">
-                    <button id="logout-btn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Keluar</button>
+        <header class="site-header">
+            <nav>
+                <div class="container">
+                     <h1 class="logo">Panel Admin</h1>
+                    <div class="header-nav">
+                        <button id="logout-btn" class="btn btn-danger">Keluar</button>
+                        <button class="theme-toggle-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        </button>
+                    </div>
                 </div>
-            </div>
+            </nav>
         </header>
 
-        <main class="container mx-auto px-4 sm:px-6 py-8 flex-grow">
+        <main class="container">
+            <h1 class="mb-6">Manajemen Produk</h1>
             <!-- Add/Edit Product Form -->
-            <div class="bg-white p-6 rounded-lg shadow-md mb-8">
-                <h2 class="text-xl font-bold mb-4" id="form-title">Tambah Produk Baru</h2>
+            <div class="card">
+                <h2 id="form-title" class="mb-4">Tambah Produk Baru</h2>
                 <form id="product-form">
                     <input type="hidden" id="product-id">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label for="name" class="block text-gray-700">Nama Produk</label>
-                            <input type="text" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="name">Nama Produk</label>
+                            <input type="text" id="name" class="form-input" required>
                         </div>
-                        <div>
-                            <label for="price" class="block text-gray-700">Harga</label>
-                            <input type="number" id="price" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                        <div class="form-group">
+                            <label for="price">Harga</label>
+                            <input type="number" id="price" step="0.01" class="form-input" required>
                         </div>
                     </div>
-                    <div class="mb-4">
-                        <label for="image-upload" class="block text-gray-700">Gambar Produk</label>
-                        <input type="file" id="image-upload" class="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100" accept="image/*">
+                    <div class="form-group">
+                        <label for="image-upload">Gambar Produk</label>
+                        <input type="file" id="image-upload" class="form-input" accept="image/*">
                         <input type="hidden" id="image">
-                        <p id="upload-status" class="mt-1 text-sm text-gray-600"></p>
-                        <img id="image-preview" src="" alt="Pratinjau Gambar" class="hidden mt-2 w-32 h-32 object-cover rounded-md border p-1">
+                        <p id="upload-status" class="mt-1"></p>
+                        <img id="image-preview" src="" alt="Pratinjau Gambar" class="hidden mt-2" style="width: 128px; height: 128px; object-fit: cover; border-radius: 6px;">
                     </div>
-                    <div class="mb-4">
-                        <label for="description" class="block text-gray-700">Deskripsi</label>
-                        <textarea id="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></textarea>
+                    <div class="form-group">
+                        <label for="description">Deskripsi</label>
+                        <textarea id="description" rows="3" class="form-textarea" required></textarea>
                     </div>
-                    <div class="flex flex-col sm:flex-row items-center gap-2">
-                        <button type="submit" class="bg-red-800 hover:bg-red-900 text-white font-bold py-2 px-4 rounded w-full sm:w-auto">Simpan Produk</button>
-                        <button type="button" id="cancel-edit-btn" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded hidden w-full sm:w-auto">Batal Edit</button>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button type="submit" class="btn btn-primary">Simpan Produk</button>
+                        <button type="button" id="cancel-edit-btn" class="btn btn-secondary hidden">Batal Edit</button>
                     </div>
                 </form>
             </div>
 
             <!-- Product List -->
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h2 class="text-xl font-bold mb-4">Kelola Produk</h2>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white">
-                        <thead class="bg-gray-50">
+            <div class="card">
+                <h2 class="mb-4">Kelola Produk</h2>
+                <div style="overflow-x: auto;">
+                    <table class="admin-table">
+                        <thead>
                             <tr>
-                                <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">Gambar</th>
-                                <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">Nama Produk</th>
-                                <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">Harga</th>
-                                <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">Aksi</th>
+                                <th>Gambar</th>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
-                        <tbody id="product-list" class="bg-white divide-y divide-gray-200">
-                            <!-- Rows will be injected here -->
+                        <tbody id="product-list">
                             <tr>
-                                <td colspan="4" class="px-4 py-4 text-sm text-center text-gray-500">Memuat produk...</td>
+                                <td colspan="4" class="text-center">Memuat produk...</td>
                             </tr>
                         </tbody>
                     </table>
@@ -101,7 +102,7 @@
             </div>
         </main>
     </div>
-
+    <script src="../../js/theme.js" defer></script>
     <script src="admin.js"></script>
 </body>
 </html>

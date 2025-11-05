@@ -4,70 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aika Shop</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/style.css">
 </head>
-<body class="bg-gray-100 font-sans min-h-screen flex flex-col">
+<body>
 
     <!-- Header -->
-    <header class="bg-white shadow-md sticky top-0 z-10">
-        <nav class="container mx-auto px-4 sm:px-6 py-3">
-            <div class="flex flex-wrap md:flex-nowrap justify-between items-center gap-4">
+    <header class="site-header">
+        <nav>
+            <div class="container">
+                <a href="#" class="logo">Aika Shop</a>
                 
-                <!-- Logo -->
-                <a href="#" class="text-2xl font-bold text-red-800">Aika Shop</a>
-                
-                <!-- Search Bar (takes up full width on mobile, flexible on desktop) -->
-                <div class="w-full md:w-auto md:flex-1 md:max-w-lg md:mx-4 order-3 md:order-2">
-                    <div class="relative">
-                        <input type="search" id="search-input" placeholder="Cari produk..." class="w-full bg-gray-100 border border-gray-200 rounded-md py-2 px-4 focus:outline-none focus:border-red-800">
-                        <button class="absolute right-0 top-0 mt-2 mr-4">
-                            <svg class="h-6 w-6 text-gray-500" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                        </button>
-                    </div>
+                <div class="search-bar">
+                    <input type="search" id="search-input" placeholder="Cari produk..." class="form-input">
                 </div>
 
-                <!-- Right side links & cart -->
-                <div class="flex items-center space-x-4 order-2 md:order-3">
-                    <a href="#" class="hidden sm:block text-gray-600 hover:text-red-800">Kategori</a>
-                    <a href="#" class="hidden sm:block text-gray-600 hover:text-red-800">Promosi</a>
-                    <a href="cart.html" class="relative text-gray-600 hover:text-red-800">
-                         <svg class="h-8 w-8" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                         <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
+                <div class="header-nav">
+                    <a href="#">Kategori</a>
+                    <a href="#">Promosi</a>
+                    <a href="cart.html" class="cart-icon">
+                         <svg class="h-8 w-8" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" width="28" height="28"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                         <span id="cart-count" class="hidden">0</span>
                     </a>
+                    <button class="theme-toggle-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </button>
                 </div>
             </div>
         </nav>
     </header>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 sm:px-6 py-8 flex-grow">
-        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">Produk Unggulan</h2>
-        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+    <main class="container">
+        <h2 class="mb-6" style="font-size: 1.8rem; font-weight: bold;">Produk Unggulan</h2>
+        <div id="product-grid" class="product-grid">
             <!-- Products will be injected here by JavaScript -->
-            <div id="loading" class="col-span-full text-center text-gray-500">
+            <div id="loading" class="text-center">
                 Memuat produk...
             </div>
         </div>
     </main>
 
     <!-- Product Detail Modal -->
-    <div id="product-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4 transition-opacity duration-300">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto relative transform transition-transform duration-300 scale-95">
-            <!-- Close button -->
-            <button id="modal-close-btn" class="absolute top-2 right-2 text-gray-500 hover:text-gray-800 z-10">&times;</button>
-
-            <div class="md:flex md:gap-6">
-                <div class="md:w-1/2">
-                    <img id="modal-img" src="https://picsum.photos/600/600" alt="Product Image" class="w-full h-auto object-cover rounded-t-lg md:rounded-l-lg md:rounded-t-none">
-                </div>
-                <div class="md:w-1/2 p-6 flex flex-col">
-                    <h2 id="modal-name" class="text-2xl font-bold text-gray-900">Product Name</h2>
-                    <p id="modal-price" class="text-xl font-semibold text-red-800 my-2">Rp0</p>
-                    <p id="modal-description" class="text-gray-600 mt-4 flex-grow">Product description goes here.</p>
-                    <div class="mt-6">
-                        <button id="modal-add-to-cart-btn" class="w-full bg-red-800 text-white px-4 py-2 rounded-md hover:bg-red-900">Tambah ke Keranjang</button>
-                    </div>
+    <div id="product-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close-btn">&times;</button>
+            <div class="modal-body">
+                <img id="modal-img" src="https://picsum.photos/600/600" alt="Product Image">
+                <div class="modal-text">
+                    <h2 id="modal-name" class="mb-2" style="font-size: 1.5rem; font-weight: bold;">Product Name</h2>
+                    <p id="modal-price" class="mb-4" style="font-size: 1.25rem; font-weight: bold; color: var(--accent-primary);">Rp0</p>
+                    <p id="modal-description" class="mb-4">Product description goes here.</p>
+                    <button id="modal-add-to-cart-btn" class="btn btn-primary" style="width: 100%;">Tambah ke Keranjang</button>
                 </div>
             </div>
         </div>
@@ -75,12 +62,13 @@
 
 
     <!-- Footer -->
-    <footer class="bg-white mt-12 py-8">
-        <div class="container mx-auto px-6 text-center text-gray-600">
+    <footer style="background-color: var(--bg-secondary); margin-top: 3rem; padding: 2rem 0;">
+        <div class="container text-center">
             <p>&copy; 2024 Aika Shop. Hak cipta dilindungi undang-undang.</p>
         </div>
     </footer>
 
+    <script src="js/theme.js" defer></script>
     <script src="js/main.js"></script>
 </body>
 </html>
