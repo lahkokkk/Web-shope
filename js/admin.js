@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Constants and variables
-    const API_URL = 'https://my-worker.lahkok204.workers.dev';
+    const API_URL = 'https://jsonbin-clone.bisay510.workers.dev/5c18c69e-4267-439c-8b5c-ab787fcfa076';
 
     // Auth elements
     const loginOverlay = document.getElementById('login-overlay');
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!response.ok) throw new Error('Failed to connect to authentication service.');
                 
                 const data = await response.json();
-                const adminData = Array.isArray(data) ? data[0] : data;
+                const adminData = (Array.isArray(data) ? data[0] : data) || {};
                 
                 if (!adminData || !adminData.admin || !adminData.admin.email || !adminData.admin.password) {
                     throw new Error('Admin credentials not found in the database.');
@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Initial Load Function ---
     async function loadProducts() {
         const data = await fetchData();
-        const rootData = Array.isArray(data) ? data[0] : data;
+        const rootData = (Array.isArray(data) ? data[0] : data) || {};
         renderProducts(rootData.products || []);
     }
 

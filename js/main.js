@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Main App Logic ---
     const productGrid = document.getElementById('product-grid');
     const loadingIndicator = document.getElementById('loading');
-    const API_URL = 'https://my-worker.lahkok204.workers.dev';
+    const API_URL = 'https://jsonbin-clone.bisay510.workers.dev/5c18c69e-4267-439c-8b5c-ab787fcfa076';
 
     async function fetchProducts() {
         try {
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const data = await response.json();
-            const rootData = Array.isArray(data) ? data[0] : data;
+            const rootData = (Array.isArray(data) ? data[0] : data) || {};
             const products = rootData.products || [];
             displayProducts(products);
         } catch (error) {
@@ -55,8 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function displayProducts(products) {
-        loadingIndicator.style.display = 'none';
-        productGrid.innerHTML = ''; // Clear loading indicator
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+        if (!productGrid) return;
+        productGrid.innerHTML = ''; // Clear loading indicator or previous content
         if (!products || products.length === 0) {
             productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 dark:text-gray-400">No products found.</p>`;
             return;
@@ -75,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                 </div>
             `;
-            prod uctGrid.innerHTML += productCard;
+            productGrid.innerHTML += productCard;
         });
     }
 
