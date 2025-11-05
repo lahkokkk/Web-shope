@@ -4,8 +4,8 @@ This project is a Shopee clone with an admin panel, built using HTML, Tailwind C
 
 ## Pages
 - `index.html`: The main customer-facing storefront.
-- `admin.html`: The login page for the administrator.
-- `admin_panel.html`: The dashboard for managing products (CRUD operations).
+- `login.html`: The login page for the administrator.
+- `admin.html`: The dashboard for managing products (CRUD operations).
 
 ## Admin Credentials
 - **Email:** aikacungwen30@gmail.com

@@ -5,14 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If already logged in, redirect to admin panel, replacing the current page in history
     if (localStorage.getItem('isAdminLoggedIn') === 'true') {
-        window.location.replace('/admin_panel.html');
+        window.location.replace('admin.html');
         return; // Stop further execution
     }
 
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const email = e.target.email.value;
+        // Trim user email input to remove accidental whitespace
+        const email = e.target.email.value.trim();
         const password = e.target.password.value;
         const submitButton = loginForm.querySelector('button[type="submit"]');
 
@@ -31,13 +32,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error('Admin credentials not found in the database.');
             }
 
-            const { email: adminEmail, password: adminPassword } = adminData.admin;
+            const adminEmail = adminData.admin.email;
+            const adminPassword = adminData.admin.password;
+
+            // --- Debugging Logs (can be removed in production) ---
+            console.log("------ LOGIN ATTEMPT ------");
+            console.log("Input Email:", `"${email}"`);
+            console.log("API Email:", `"${adminEmail}"`);
+            console.log("Email Match:", email === adminEmail);
+            console.log("Input Password:", `"${password}"`);
+            console.log("API Password:", `"${adminPassword}"`);
+            console.log("Password Match:", password === adminPassword);
+            console.log("--------------------------");
 
             if (email === adminEmail && password === adminPassword) {
+                console.log("Login successful. Redirecting to admin.html...");
                 localStorage.setItem('isAdminLoggedIn', 'true');
-                // Use replace to prevent user from going back to the login page
-                window.location.replace('/admin_panel.html');
+                window.location.replace('admin.html');
             } else {
+                console.log("Login failed: Invalid credentials.");
                 errorMessage.textContent = 'Invalid email or password.';
             }
 

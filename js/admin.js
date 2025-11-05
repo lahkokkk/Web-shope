@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Page Protection
     if (localStorage.getItem('isAdminLoggedIn') !== 'true') {
-        window.location.href = 'admin.html';
+        window.location.href = 'login.html';
         return; // Stop script execution
     }
 
