@@ -15,18 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to apply the theme and update the icon
     const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            if (themeToggleLightIcon) themeToggleLightIcon.classList.remove('hidden');
-            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.add('hidden');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.remove('hidden');
-            if (themeToggleLightIcon) themeToggleLightIcon.classList.add('hidden');
-            localStorage.setItem('theme', 'light');
-        }
-    };
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            if (themeToggleLightIcon) themeToggleLightIcon.classList.remove('hidden'); // Show SUN in dark mode
+            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.add('hidden');   // Hide MOON in dark mode
+            localStorage.setItem('theme', 'dark');
+        } else { // light
+            document.documentElement.classList.remove('dark');
+            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.remove('hidden'); // Show MOON in light mode
+            if (themeToggleLightIcon) themeToggleLightIcon.classList.add('hidden');   // Hide SUN in light mode
+            localStorage.setItem('theme', 'light');
+        }
+    };
     
     // Set the initial theme on page load
     const initialTheme = localStorage.getItem('theme') || 
