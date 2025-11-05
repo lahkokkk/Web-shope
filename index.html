@@ -35,10 +35,15 @@
 
     <!-- Main Content -->
     <main class="container">
-        <h2 class="mb-6" style="font-size: 1.8rem; font-weight: bold;">Produk Unggulan</h2>
+        <h2 class="mb-4 text-center" style="font-size: 1.5rem; font-weight: bold;">Kategori Produk</h2>
+        <div id="category-filters" class="category-filters">
+            <!-- Category buttons will be injected here -->
+        </div>
+
+        <h2 class="mb-6 mt-6" style="font-size: 1.8rem; font-weight: bold;">Produk Kami</h2>
         <div id="product-grid" class="product-grid">
             <!-- Products will be injected here by JavaScript -->
-            <div id="loading" class="text-center">
+            <div id="loading" class="text-center" style="grid-column: 1 / -1;">
                 Memuat produk...
             </div>
         </div>

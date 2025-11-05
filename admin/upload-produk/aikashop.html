@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
     <title>Aika Shop - Panel Admin</title>
     <link rel="stylesheet" href="../../styles/style.css">
 </head>
@@ -46,7 +45,7 @@
         </header>
 
         <main class="container">
-            <h1 class="mb-6">Manajemen Produk</h1>
+            <h1 class="mb-6">Manajemen Konten</h1>
             <!-- Add/Edit Product Form -->
             <div class="card">
                 <h2 id="form-title" class="mb-4">Tambah Produk Baru</h2>
@@ -60,6 +59,13 @@
                         <div class="form-group">
                             <label for="price">Harga</label>
                             <input type="number" id="price" step="0.01" class="form-input" required>
+                        </div>
+                         <div class="form-group">
+                            <label for="category">Kategori</label>
+                            <input type="text" id="category" list="category-suggestions" class="form-input" placeholder="Kosongkan jika tidak berkategori">
+                            <datalist id="category-suggestions">
+                                <!-- Options will be populated by JS -->
+                            </datalist>
                         </div>
                     </div>
                     <div class="form-group">
@@ -78,6 +84,18 @@
                         <button type="button" id="cancel-edit-btn" class="btn btn-secondary hidden">Batal Edit</button>
                     </div>
                 </form>
+            </div>
+
+            <!-- Category Management -->
+            <div class="card">
+                <h2 class="mb-4">Manajemen Kategori</h2>
+                <form id="category-form" class="mb-4" style="display: flex; gap: 0.5rem;">
+                    <input type="text" id="category-name" class="form-input" placeholder="Nama Kategori Baru" required style="flex-grow: 1;">
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </form>
+                <div id="category-list">
+                    <p>Memuat kategori...</p>
+                </div>
             </div>
 
             <!-- Product List -->

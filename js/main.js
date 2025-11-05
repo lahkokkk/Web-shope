@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingIndicator = document.getElementById('loading');
     const cartCountElement = document.getElementById('cart-count');
     const searchInput = document.getElementById('search-input');
+    const categoryFiltersContainer = document.getElementById('category-filters');
 
     // Modal elements
     const productModal = document.getElementById('product-modal');
@@ -18,7 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalAddToCartBtn = document.getElementById('modal-add-to-cart-btn');
 
     let allProducts = [];
+    let allCategories = [];
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let currentCategory = 'Semua';
+    let currentSearchTerm = '';
 
     // --- Cart Functions ---
     function updateCartCount() {
@@ -71,19 +75,53 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             const rootData = (Array.isArray(data) ? data[0] : data) || {};
             allProducts = rootData.products || [];
-            displayProducts(allProducts);
+            allCategories = rootData.categories || [];
+            displayCategories(allCategories);
+            updateProductDisplay();
         } catch (error) {
             console.error('Error fetching products:', error);
-            if (productGrid) productGrid.innerHTML = `<p class="text-center">Gagal memuat produk.</p>`;
+            if (productGrid) productGrid.innerHTML = `<p class="text-center" style="grid-column: 1 / -1;">Gagal memuat produk.</p>`;
         }
     }
 
+    function displayCategories(categoriesData) {
+        if (!categoryFiltersContainer) return;
+        const categoryNames = categoriesData.map(c => c.name).sort();
+        const categories = ['Semua', ...categoryNames];
+        
+        categoryFiltersContainer.innerHTML = categories.map((category, index) => `
+            <button class="category-btn ${index === 0 ? 'active' : ''}" data-category="${category}">
+                ${category}
+            </button>
+        `).join('');
+    }
+
+    function updateProductDisplay() {
+        let productsToDisplay = allProducts;
+
+        // 1. Filter by category
+        if (currentCategory !== 'Semua') {
+            productsToDisplay = productsToDisplay.filter(p => p.category === currentCategory);
+        }
+
+        // 2. Filter by search term
+        if (currentSearchTerm) {
+            const searchTerm = currentSearchTerm.toLowerCase();
+            productsToDisplay = productsToDisplay.filter(product =>
+                product.name.toLowerCase().includes(searchTerm) ||
+                (product.description && product.description.toLowerCase().includes(searchTerm))
+            );
+        }
+        
+        displayProducts(productsToDisplay);
+    }
+    
     function displayProducts(products) {
         if (loadingIndicator) loadingIndicator.style.display = 'none';
         if (!productGrid) return;
         productGrid.innerHTML = '';
         if (!products || products.length === 0) {
-            productGrid.innerHTML = `<p class="text-center">Tidak ada produk yang ditemukan.</p>`;
+            productGrid.innerHTML = `<p class="text-center" style="grid-column: 1 / -1;">Tidak ada produk yang ditemukan.</p>`;
             return;
         }
         products.forEach(product => {
@@ -105,14 +143,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Event Listeners ---
+    if (categoryFiltersContainer) {
+        categoryFiltersContainer.addEventListener('click', e => {
+            const targetButton = e.target.closest('.category-btn');
+            if (targetButton) {
+                currentCategory = targetButton.dataset.category;
+                const buttons = categoryFiltersContainer.querySelectorAll('.category-btn');
+                buttons.forEach(btn => btn.classList.remove('active'));
+                targetButton.classList.add('active');
+                updateProductDisplay();
+            }
+        });
+    }
+
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase().trim();
-            const filteredProducts = allProducts.filter(product => 
-                product.name.toLowerCase().includes(searchTerm) ||
-                (product.description && product.description.toLowerCase().includes(searchTerm))
-            );
-            displayProducts(filteredProducts);
+            currentSearchTerm = e.target.value.toLowerCase().trim();
+            updateProductDisplay();
         });
     }
 
