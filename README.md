@@ -34,4 +34,4 @@ Example `admin` object in your API data:
 ```
 
 ## API
-- **Endpoint:** `https://jsonbin-clone.bisay510.workers.dev/5c18c69e-4267-439c-8b5c-ab787fcfa076`
+- **Endpoint:** `https://my-worker.lahkok204.workers.dev`
