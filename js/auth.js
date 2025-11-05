@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // If already logged in, redirect to admin panel, replacing the current page in history
     if (localStorage.getItem('isAdminLoggedIn') === 'true') {
-        window.location.replace('admin.html');
+        window.location.replace('../admin.html');
         return; // Stop further execution
     }
 
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (email === adminEmail && password === adminPassword) {
                 console.log("Login successful. Redirecting to admin.html...");
                 localStorage.setItem('isAdminLoggedIn', 'true');
-                window.location.replace('admin.html');
+                window.location.replace('../admin.html');
             } else {
                 console.log("Login failed: Invalid credentials.");
                 errorMessage.textContent = 'Invalid email or password.';
