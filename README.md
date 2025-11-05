@@ -10,22 +10,22 @@ Proyek ini adalah Toko Aika dengan panel admin, dibuat menggunakan HTML, Tailwin
 - **Email (plaintext):** aikacungwen30@gmail.com
 - **Password (plaintext):** Dragon123
 
-**Penting:** Email dan kata sandi yang disimpan di data API sekarang di-hash menggunakan SHA-256 untuk keamanan.
+**Penting:** Email dan kata sandi yang disimpan di data API di-hash menggunakan SHA-256 **dengan salt unik per field** untuk keamanan. Skema login yang baru mengharuskan data admin di API memiliki `email_salt` dan `password_salt` selain hash `email` dan `password`.
 
-Hash SHA-256 untuk "aikacungwen30@gmail.com" adalah:
-`0dd62283944d18779b5b2931a027964b733796d11f71a08620251786193796b4`
+Proses hashingnya adalah:
+- `hashed_email = sha256(plaintext_email + email_salt)`
+- `hashed_password = sha256(plaintext_password + password_salt)`
 
-Hash SHA-256 untuk "Dragon123" adalah:
-`a01a858137b3554e288e441be84e6f21c251d8b6715b74127025816396f6259e`
-
-Data API Anda di endpoint harus memiliki email dan kata sandi admin yang diatur ke hash ini.
+Aplikasi admin (`js/admin.js`) akan mengambil salt ini dari API dan menggunakannya untuk memverifikasi kredensial yang dimasukkan oleh pengguna.
 
 Contoh objek `admin` di data API Anda:
 ```json
 {
   "admin": {
-    "email": "0dd62283944d18779b5b2931a027964b733796d11f71a08620251786193796b4",
-    "password": "a01a858137b3554e288e441be84e6f21c251d8b6715b74127025816396f6259e"
+    "email_salt": "salt_unik_untuk_email_anda",
+    "email": "hash_dari_email_dan_salt_email",
+    "password_salt": "salt_unik_untuk_password_anda",
+    "password": "hash_dari_password_dan_salt_password"
   },
   "products": [
     ...

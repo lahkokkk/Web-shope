@@ -1,16 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- SHA-256 Hashing function ---
-    async function sha256(message) {
-        // encode as UTF-8
-        const msgBuffer = new TextEncoder().encode(message);
-        // hash the message
-        const hashBuffer = await crypto.subtle.digest('SHA-256', msgBuffer);
-        // convert ArrayBuffer to Array
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        // convert bytes to hex string
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-        return hashHex;
-    }
+    async function sha256Hex(str) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(str);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
 
     // --- Theme Toggler ---
     const themeToggleBtn = document.getElementById('theme-toggle');
@@ -102,16 +98,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = await response.json();
                 const adminData = (Array.isArray(data) ? data[0] : data) || {};
                 
-                if (!adminData || !adminData.admin || !adminData.admin.email || !adminData.admin.password) {
-                    throw new Error('Kredensial admin tidak ditemukan di database.');
+                if (!adminData || !adminData.admin || !adminData.admin.email || !adminData.admin.password || !adminData.admin.email_salt || !adminData.admin.password_salt) {
+                    throw new Error('Kredensial admin atau struktur data di database tidak lengkap.');
                 }
 
                 const storedEmailHash = adminData.admin.email;
                 const storedPasswordHash = adminData.admin.password;
+                const emailSalt = adminData.admin.email_salt;
+                const passwordSalt = adminData.admin.password_salt;
 
-                // Hash the entered credentials for comparison
-                const enteredEmailHash = await sha256(email);
-                const enteredPasswordHash = await sha256(password);
+
+                // Hash the entered credentials with the specific salts from the API
+                const enteredEmailHash = await sha256Hex(emailSalt + email);
+                const enteredPasswordHash = await sha256Hex(passwordSalt + password);
 
                 if (enteredEmailHash === storedEmailHash && enteredPasswordHash === storedPasswordHash) {
                     localStorage.setItem('isAdminLoggedIn', 'true');
