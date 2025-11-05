@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
             displayProducts(products);
         } catch (error) {
             console.error('Error fetching products:', error);
-            productGrid.innerHTML = `<p class="col-span-full text-center text-red-500">Failed to load products.</p>`;
+            productGrid.innerHTML = `<p class="col-span-full text-center text-red-500">Gagal memuat produk.</p>`;
         }
     }
 
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!productGrid) return;
         productGrid.innerHTML = ''; // Clear loading indicator or previous content
         if (!products || products.length === 0) {
-            productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 dark:text-gray-400">No products found.</p>`;
+            productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 dark:text-gray-400">Tidak ada produk yang ditemukan.</p>`;
             return;
         }
         products.forEach(product => {
@@ -70,8 +70,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 truncate">${product.name}</h3>
                         <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm flex-grow">${(product.description || '').substring(0, 50)}...</p>
                         <div class="mt-4 flex flex-wrap gap-2 items-center justify-between">
-                            <span class="text-xl font-bold text-red-800 dark:text-red-500">$${parseFloat(product.price).toFixed(2)}</span>
-                            <button class="bg-red-800 text-white px-3 py-1.5 rounded-md hover:bg-red-900 text-sm w-full sm:w-auto">Add to Cart</button>
+                            <span class="text-xl font-bold text-red-800 dark:text-red-500">Rp${parseFloat(product.price).toLocaleString('id-ID')}</span>
+                            <button class="bg-red-800 text-white px-3 py-1.5 rounded-md hover:bg-red-900 text-sm w-full sm:w-auto">Tambah ke Keranjang</button>
                         </div>
                     </div>
                 </div>

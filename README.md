@@ -1,26 +1,26 @@
-# E-commerce Project
+# Proyek E-commerce
 
-This project is a Aika Shop with an admin panel, built using HTML, Tailwind CSS, and JavaScript. It uses a JSONbin-like API for product data management.
+Proyek ini adalah Toko Aika dengan panel admin, dibuat menggunakan HTML, Tailwind CSS, dan JavaScript. Proyek ini menggunakan API seperti JSONbin untuk manajemen data produk.
 
-## Pages
-- `index.html`: The main customer-facing storefront.
-- `admin.html`: The dashboard for managing products (CRUD operations). A login modal will appear on this page if not authenticated.
+## Halaman
+- `index.html`: Halaman utama toko yang dilihat pelanggan.
+- `admin.html`: Dasbor untuk mengelola produk (operasi CRUD). Sebuah modal login akan muncul di halaman ini jika belum terotentikasi.
 
-## Admin Credentials
+## Kredensial Admin
 - **Email (plaintext):** aikacungwen30@gmail.com
 - **Password (plaintext):** Dragon123
 
-**Important:** The email and password stored in the API data are now hashed using SHA-256 for security.
+**Penting:** Email dan kata sandi yang disimpan di data API sekarang di-hash menggunakan SHA-256 untuk keamanan.
 
-The SHA-256 hash for "aikacungwen30@gmail.com" is:
+Hash SHA-256 untuk "aikacungwen30@gmail.com" adalah:
 `0dd62283944d18779b5b2931a027964b733796d11f71a08620251786193796b4`
 
-The SHA-256 hash for "Dragon123" is:
+Hash SHA-256 untuk "Dragon123" adalah:
 `a01a858137b3554e288e441be84e6f21c251d8b6715b74127025816396f6259e`
 
-Your API data at the endpoint should have the admin email and password set to these hashes.
+Data API Anda di endpoint harus memiliki email dan kata sandi admin yang diatur ke hash ini.
 
-Example `admin` object in your API data:
+Contoh objek `admin` di data API Anda:
 ```json
 {
   "admin": {

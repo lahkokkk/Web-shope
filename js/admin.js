@@ -92,18 +92,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const submitButton = loginForm.querySelector('button[type="submit"]');
 
             submitButton.disabled = true;
-            submitButton.textContent = 'Logging in...';
+            submitButton.textContent = 'Sedang masuk...';
             if (errorMessage) errorMessage.textContent = '';
 
             try {
                 const response = await fetch(API_URL);
-                if (!response.ok) throw new Error('Failed to connect to authentication service.');
+                if (!response.ok) throw new Error('Gagal terhubung ke layanan otentikasi.');
                 
                 const data = await response.json();
                 const adminData = (Array.isArray(data) ? data[0] : data) || {};
                 
                 if (!adminData || !adminData.admin || !adminData.admin.email || !adminData.admin.password) {
-                    throw new Error('Admin credentials not found in the database.');
+                    throw new Error('Kredensial admin tidak ditemukan di database.');
                 }
 
                 const storedEmailHash = adminData.admin.email;
@@ -117,15 +117,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('isAdminLoggedIn', 'true');
                     showAdminPanel();
                 } else {
-                    if (errorMessage) errorMessage.textContent = 'Invalid email or password.';
+                    if (errorMessage) errorMessage.textContent = 'Email atau kata sandi salah.';
                 }
 
             } catch (error) {
                 console.error('Login error:', error);
-                if (errorMessage) errorMessage.textContent = error.message || 'An error occurred. Please try again.';
+                if (errorMessage) errorMessage.textContent = error.message || 'Terjadi kesalahan. Silakan coba lagi.';
             } finally {
                 submitButton.disabled = false;
-                submitButton.textContent = 'Log In';
+                submitButton.textContent = 'Masuk';
             }
         });
     }
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return await response.json();
         } catch (error) {
             console.error('Fetch error:', error);
-            if(productListContainer) productListContainer.innerHTML = '<p class="text-red-500">Error loading data.</p>';
+            if(productListContainer) productListContainer.innerHTML = '<tr><td colspan="4" class="px-4 py-4 text-sm text-center text-red-500">Gagal memuat data.</td></tr>';
             return [{ products: [] }]; // Return object with empty products on error
         }
     }
@@ -174,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return await response.json();
         } catch (error) {
             console.error('Update error:', error);
-            alert('Error saving data.');
+            alert('Gagal menyimpan data.');
             return null;
         }
     }
@@ -185,25 +185,29 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!productListContainer) return;
         productListContainer.innerHTML = '';
         if (!products || products.length === 0) {
-            productListContainer.innerHTML = '<p class="dark:text-gray-300">No products found. Add one using the form above.</p>';
+            productListContainer.innerHTML = '<tr><td colspan="4" class="px-4 py-4 text-sm text-center text-gray-500 dark:text-gray-300">Tidak ada produk. Tambahkan satu menggunakan formulir di atas.</td></tr>';
             return;
         }
 
         products.forEach((product, index) => {
-            const productEl = document.createElement('div');
-            productEl.className = 'flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md';
+            const productEl = document.createElement('tr');
+            productEl.className = 'align-middle';
             productEl.innerHTML = `
-                <div class="flex items-center space-x-4">
-                    <img src="${product.image || 'https://picsum.photos/100/100'}" alt="${product.name}" class="w-16 h-16 object-cover rounded-md">
-                    <div>
-                        <p class="font-bold dark:text-gray-200">${product.name}</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">$${product.price}</p>
-                    </div>
-                </div>
-                <div class="space-x-2">
-                    <button data-index="${index}" class="edit-btn bg-blue-500 text-white px-3 py-1 rounded-md text-sm">Edit</button>
-                    <button data-index="${index}" class="delete-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm">Delete</button>
-                </div>
+                <td class="p-4 whitespace-nowrap">
+                    <img src="${product.image || 'https://picsum.photos/100/100'}" alt="${product.name}" class="w-16 h-16 object-cover rounded-md">
+                </td>
+                <td class="p-4 whitespace-nowrap">
+                    <p class="font-bold dark:text-gray-200">${product.name}</p>
+                </td>
+                <td class="p-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                    Rp${parseFloat(product.price).toLocaleString('id-ID')}
+                </td>
+                <td class="p-4 whitespace-nowrap">
+                    <div class="flex items-center gap-2">
+                        <button data-index="${index}" class="edit-btn bg-blue-500 text-white px-3 py-1.5 rounded-md text-sm">Edit</button>
+                        <button data-index="${index}" class="delete-btn bg-red-500 text-white px-3 py-1.5 rounded-md text-sm">Hapus</button>
+                    </div>
+                </td>
             `;
             productListContainer.appendChild(productEl);
         });
@@ -260,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!productForm) return;
         productForm.reset();
         document.getElementById('product-id').value = '';
-        if (formTitle) formTitle.textContent = 'Add New Product';
+        if (formTitle) formTitle.textContent = 'Tambah Produk Baru';
         if (cancelEditBtn) cancelEditBtn.classList.add('hidden');
     }
 
@@ -275,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const index = target.dataset.index;
 
             if (target.classList.contains('delete-btn')) {
-                if (confirm('Are you sure you want to delete this product?')) {
+                if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
                     const updatedProducts = allProducts.filter((_, i) => i != index);
                     const result = await updateData(updatedProducts);
                     if (result) await loadProducts();
@@ -289,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('price').value = product.price;
                 document.getElementById('image').value = product.image;
                 document.getElementById('description').value = product.description;
-                if (formTitle) formTitle.textContent = 'Edit Product';
+                if (formTitle) formTitle.textContent = 'Edit Produk';
                 if (cancelEditBtn) cancelEditBtn.classList.remove('hidden');
                 window.scrollTo(0, 0);
             }
