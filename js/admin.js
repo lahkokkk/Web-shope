@@ -1,4 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Theme Toggler ---
+    const themeToggleBtn = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+
+    // Function to apply the theme and update the icon
+    const applyTheme = (theme) => {
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+            if (themeToggleLightIcon) themeToggleLightIcon.classList.remove('hidden');
+            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.add('hidden');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.remove('hidden');
+            if (themeToggleLightIcon) themeToggleLightIcon.classList.add('hidden');
+            localStorage.setItem('theme', 'light');
+        }
+    };
+    
+    // Set the initial theme on page load
+    const initialTheme = localStorage.getItem('theme') || 
+                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(initialTheme);
+
+    // Add click listener for the theme toggle button
+    if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', () => {
+            // Toggle theme based on current state in the classList
+            const isDark = document.documentElement.classList.contains('dark');
+            applyTheme(isDark ? 'light' : 'dark');
+        });
+    }
+
     // Constants and variables
     const API_URL = 'https://jsonbin-clone.bisay510.workers.dev/5c18c69e-4267-439c-8b5c-ab787fcfa076';
 
@@ -134,19 +168,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!productListContainer) return;
         productListContainer.innerHTML = '';
         if (!products || products.length === 0) {
-            productListContainer.innerHTML = '<p>No products found. Add one using the form above.</p>';
+            productListContainer.innerHTML = '<p class="dark:text-gray-300">No products found. Add one using the form above.</p>';
             return;
         }
 
         products.forEach((product, index) => {
             const productEl = document.createElement('div');
-            productEl.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-md';
+            productEl.className = 'flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-md';
             productEl.innerHTML = `
                 <div class="flex items-center space-x-4">
                     <img src="${product.image || 'https://picsum.photos/100/100'}" alt="${product.name}" class="w-16 h-16 object-cover rounded-md">
                     <div>
-                        <p class="font-bold">${product.name}</p>
-                        <p class="text-sm text-gray-600">$${product.price}</p>
+                        <p class="font-bold dark:text-gray-200">${product.name}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">$${product.price}</p>
                     </div>
                 </div>
                 <div class="space-x-2">

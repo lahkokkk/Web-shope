@@ -1,6 +1,6 @@
 # E-commerce Project
 
-This project is a Shopee clone with an admin panel, built using HTML, Tailwind CSS, and JavaScript. It uses a JSONbin-like API for product data management.
+This project is a Aika Shop with an admin panel, built using HTML, Tailwind CSS, and JavaScript. It uses a JSONbin-like API for product data management.
 
 ## Pages
 - `index.html`: The main customer-facing storefront.
