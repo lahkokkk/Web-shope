@@ -1,0 +1,114 @@
+[
+  {
+    "admin": {
+      "email": "aikacungwen30@gmail.com",
+      "password": "Dragon123"
+    },
+    "products": [
+      {
+        "id": 1,
+        "name": "Nama Produk Keren yang Sangat Panjang Sekali",
+        "price": 123000,
+        "sold": "1rb+",
+        "image": "https://picsum.photos/200/200?random=10",
+        "rating": 4.8,
+        "reviews": 2500,
+        "stock": 42,
+        "category": "Elektronik",
+        "brand": "Tanpa Merek",
+        "material": "Plastik",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "images": [
+          "https://picsum.photos/600/600?random=10",
+          "https://picsum.photos/100/100?random=11",
+          "https://picsum.photos/100/100?random=12",
+          "https://picsum.photos/100/100?random=13",
+          "https://picsum.photos/100/100?random=14"
+        ],
+        "options": {
+          "color": ["Merah", "Biru", "Hitam"]
+        }
+      },
+      {
+        "id": 2,
+        "name": "Baju Kemeja Pria Lengan Panjang Keren",
+        "price": 85000,
+        "sold": "500+",
+        "image": "https://picsum.photos/200/200?random=11",
+        "rating": 4.5,
+        "reviews": 1200,
+        "stock": 150,
+        "category": "Fashion Pria",
+        "brand": "Brand Terkenal",
+        "material": "Katun",
+        "description": "Baju kemeja pria dengan bahan katun premium yang nyaman dipakai sehari-hari. Desain modern dan stylish, cocok untuk acara formal maupun kasual.",
+        "images": ["https://picsum.photos/600/600?random=11"],
+        "options": {
+          "color": ["Putih", "Hitam", "Navy"],
+          "size": ["S", "M", "L", "XL"]
+        }
+      },
+      {
+        "id": 3,
+        "name": "Headphone Bluetooth Anti Air Bass Mantap",
+        "price": 250000,
+        "sold": "2.5rb",
+        "image": "https://picsum.photos/200/200?random=12",
+        "rating": 4.9,
+        "reviews": 3100,
+        "stock": 80,
+        "category": "Elektronik",
+        "brand": "Audiophile",
+        "material": "ABS",
+        "description": "Nikmati kualitas suara jernih dan bass yang mendalam dengan headphone bluetooth ini. Tahan air, cocok untuk olahraga.",
+        "images": ["https://picsum.photos/600/600?random=12"],
+        "options": {
+          "color": ["Hitam", "Putih"]
+        }
+      },
+      {
+        "id": 4,
+        "name": "Sepatu Lari Pria Nyaman dan Ringan",
+        "price": 350000,
+        "sold": "780",
+        "image": "https://picsum.photos/200/200?random=13",
+        "rating": 4.7,
+        "reviews": 900,
+        "stock": 200,
+        "category": "Sepatu Pria",
+        "brand": "RunnerPro",
+        "material": "Mesh",
+        "description": "Sepatu lari yang dirancang untuk kenyamanan maksimal. Bahan mesh yang ringan membuat kaki tetap sejuk.",
+        "images": ["https://picsum.photos/600/600?random=13"],
+        "options": {
+          "color": ["Abu-abu", "Biru", "Merah"],
+          "size": ["39", "40", "41", "42", "43"]
+        }
+      }
+    ],
+    "cart": [
+      {
+        "userId": 1,
+        "productId": 1,
+        "quantity": 1
+      },
+      {
+        "userId": 1,
+        "productId": 2,
+        "quantity": 2
+      }
+    ],
+    "categories": [
+      { "id": 1, "name": "Elektronik", "image": "" },
+      { "id": 2, "name": "Fashion Pria", "image": "" },
+      { "id": 3, "name": "Fashion Wanita", "image": "" },
+      { "id": 4, "name": "Handphone & Aksesoris", "image": "" },
+      { "id": 5, "name": "Kecantikan", "image": "" },
+      { "id": 6, "name": "Sepatu Pria", "image": "" },
+      { "id": 7, "name": "Sepatu Wanita", "image": "" },
+      { "id": 8, "name": "Peralatan Rumah Tangga", "image": "" },
+      { "id": 9, "name": "Olahraga & Outdoor", "image": "" },
+      { "id": 10, "name": "Hobi & Koleksi", "image": "" }
+    ]
+  }
+]

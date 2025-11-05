@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-gray-800">Admin Panel</h1>
+            <button id="logout-btn" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Logout</button>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-8">
+        <!-- Add/Edit Product Form -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-bold mb-4" id="form-title">Add New Product</h2>
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label for="name" class="block text-gray-700">Product Name</label>
+                        <input type="text" id="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+                    <div>
+                        <label for="price" class="block text-gray-700">Price</label>
+                        <input type="number" id="price" step="0.01" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label for="image" class="block text-gray-700">Image URL</label>
+                    <input type="text" id="image" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                </div>
+                <div class="mb-4">
+                    <label for="description" class="block text-gray-700">Description</label>
+                    <textarea id="description" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required></textarea>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button type="submit" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Save Product</button>
+                    <button type="button" id="cancel-edit-btn" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded hidden">Cancel Edit</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Product List -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-bold mb-4">Manage Products</h2>
+            <div id="product-list" class="space-y-4">
+                <!-- Products will be loaded here -->
+                <p>Loading products...</p>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
