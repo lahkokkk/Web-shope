@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Constants and variables
-    const API_URL = 'https://jsonbin-clone.bisay510.workers.dev/5c18c69e-4267-439c-8b5c-ab787fcfa076';
+    const ADMIN_API_URL = 'https://jsonbin-clone.bisay510.workers.dev/01cb6930-6d66-4c5e-8bf0-dc46f078f34d';
+    const PRODUCT_API_URL = 'https://jsonbin-clone.bisay510.workers.dev/41306972-876d-42bf-8e33-4373603bbf50';
     const IMGBB_API_KEY = '9403588ce6030b29b5e1c76c171049dc';
 
     // Auth elements
@@ -66,20 +67,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (errorMessage) errorMessage.textContent = '';
 
             try {
-                const response = await fetch(API_URL);
+                const response = await fetch(ADMIN_API_URL);
                 if (!response.ok) throw new Error('Gagal terhubung ke layanan otentikasi.');
                 
                 const data = await response.json();
                 const adminData = (Array.isArray(data) ? data[0] : data) || {};
                 
-                if (!adminData || !adminData.admin || !adminData.admin.email || !adminData.admin.password || !adminData.admin.email_salt || !adminData.admin.password_salt) {
+                if (!adminData || !adminData.email || !adminData.password || !adminData.email_salt || !adminData.password_salt) {
                     throw new Error('Kredensial admin atau struktur data di database tidak lengkap.');
                 }
 
-                const storedEmailHash = adminData.admin.email;
-                const storedPasswordHash = adminData.admin.password;
-                const emailSalt = adminData.admin.email_salt;
-                const passwordSalt = adminData.admin.password_salt;
+                const storedEmailHash = adminData.email;
+                const storedPasswordHash = adminData.password;
+                const emailSalt = adminData.email_salt;
+                const passwordSalt = adminData.password_salt;
 
 
                 // Hash the entered credentials with the specific salts from the API
@@ -114,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- API Functions ---
     async function fetchData() {
         try {
-            const response = await fetch(API_URL);
+            const response = await fetch(PRODUCT_API_URL);
             if (!response.ok) throw new Error('Network response was not ok');
             return await response.json();
         } catch (error) {
@@ -126,7 +127,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function updateData(products) {
         try {
-            const currentDataResponse = await fetch(API_URL);
+            const currentDataResponse = await fetch(PRODUCT_API_URL);
             if (!currentDataResponse.ok) throw new Error('Failed to fetch current state before update.');
             const fetchedData = await currentDataResponse.json();
             const currentData = (Array.isArray(fetchedData) ? fetchedData[0] : fetchedData) || {};
@@ -136,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 products: products,
             };
 
-            const response = await fetch(API_URL, {
+            const response = await fetch(PRODUCT_API_URL, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
