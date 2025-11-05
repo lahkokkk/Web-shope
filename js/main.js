@@ -1,33 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Theme Toggler ---
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-
-    const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark');
-            if (themeToggleLightIcon) themeToggleLightIcon.classList.remove('hidden'); // Show SUN in dark mode
-            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.add('hidden');   // Hide MOON in dark mode
-            localStorage.setItem('theme', 'dark');
-        } else { // light
-            document.documentElement.classList.remove('dark');
-            if (themeToggleDarkIcon) themeToggleDarkIcon.classList.remove('hidden'); // Show MOON in light mode
-            if (themeToggleLightIcon) themeToggleLightIcon.classList.add('hidden');   // Hide SUN in light mode
-            localStorage.setItem('theme', 'light');
-        }
-    };
-
-    const initialTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    applyTheme(initialTheme);
-
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const isDark = document.documentElement.classList.contains('dark');
-            applyTheme(isDark ? 'light' : 'dark');
-        });
-    }
-
     // --- Main App Logic ---
     const API_URL = 'https://jsonbin-clone.bisay510.workers.dev/5c18c69e-4267-439c-8b5c-ab787fcfa076';
 
@@ -35,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productGrid = document.getElementById('product-grid');
     const loadingIndicator = document.getElementById('loading');
     const cartCountElement = document.getElementById('cart-count');
+    const searchInput = document.getElementById('search-input');
 
     // Modal elements
     const productModal = document.getElementById('product-modal');
@@ -113,18 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!productGrid) return;
         productGrid.innerHTML = '';
         if (!products || products.length === 0) {
-            productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500 dark:text-gray-400">Tidak ada produk yang ditemukan.</p>`;
+            productGrid.innerHTML = `<p class="col-span-full text-center text-gray-500">Tidak ada produk yang ditemukan.</p>`;
             return;
         }
         products.forEach(product => {
             const productCard = `
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden product-card flex flex-col cursor-pointer" data-id="${product.id}">
+                <div class="bg-white rounded-lg shadow-md overflow-hidden product-card flex flex-col cursor-pointer" data-id="${product.id}">
                     <img src="${product.image || 'https://picsum.photos/400/300'}" alt="${product.name}" class="w-full h-48 object-cover">
                     <div class="p-4 flex flex-col flex-grow">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 truncate">${product.name}</h3>
-                        <p class="text-gray-600 dark:text-gray-400 mt-1 text-sm flex-grow">${(product.description || '').substring(0, 50)}...</p>
+                        <h3 class="text-lg font-semibold text-gray-800 truncate">${product.name}</h3>
+                        <p class="text-gray-600 mt-1 text-sm flex-grow">${(product.description || '').substring(0, 50)}...</p>
                         <div class="mt-4 flex flex-wrap gap-2 items-center justify-between">
-                            <span class="text-xl font-bold text-red-800 dark:text-red-500">Rp${parseFloat(product.price).toLocaleString('id-ID')}</span>
+                            <span class="text-xl font-bold text-red-800">Rp${parseFloat(product.price).toLocaleString('id-ID')}</span>
                             <button class="add-to-cart-btn bg-red-800 text-white px-3 py-1.5 rounded-md hover:bg-red-900 text-sm w-full sm:w-auto" data-id="${product.id}">Tambah ke Keranjang</button>
                         </div>
                     </div>
@@ -135,6 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Event Listeners ---
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase().trim();
+            const filteredProducts = allProducts.filter(product => 
+                product.name.toLowerCase().includes(searchTerm) ||
+                (product.description && product.description.toLowerCase().includes(searchTerm))
+            );
+            displayProducts(filteredProducts);
+        });
+    }
+
     if (productGrid) {
         productGrid.addEventListener('click', (e) => {
             // Check for Add to Cart button click
