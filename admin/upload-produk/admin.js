@@ -288,21 +288,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 updatedProducts = [...allProducts, newProduct];
             }
 
-            let updatedCategories = [...allCategories];
-            const isNewCategory = finalCategory !== 'Uncategorized' && !allCategories.some(cat => cat.name.toLowerCase() === finalCategory.toLowerCase());
-            
+            let updatedCategories = [...allCategories]; // Make a copy
+            // Check for new category and update category list if needed
+            const isNewCategory = finalCategory !== 'Uncategorized' && !updatedCategories.some(cat => cat.name.toLowerCase() === finalCategory.toLowerCase());
+
             if (isNewCategory) {
                 updatedCategories.push({ id: Date.now(), name: finalCategory, image: '' });
             }
-
-            const dataToUpdate = { products: updatedProducts };
-            if (isNewCategory) {
-                dataToUpdate.categories = updatedCategories;
-            }
+            
+            // Update both products and categories in the database
+            const dataToUpdate = { products: updatedProducts, categories: updatedCategories };
             
             const result = await updateData(dataToUpdate);
             if (result) {
-                await loadData();
+                // On success, update our local state to match what we sent
+                allProducts = updatedProducts;
+                allCategories = updatedCategories;
+                
+                // Now re-render everything using the latest local state
+                renderProducts(allProducts);
+                renderCategories(allCategories);
+                populateCategoryDatalist(allCategories);
+                
                 resetForm();
             }
         });
@@ -320,11 +327,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Kategori tersebut sudah ada.');
                 return;
             }
-            const updatedCategories = [...allCategories, { id: Date.now(), name: newCategoryName, image: '' }];
-            const result = await updateData({ categories: updatedCategories });
+            const newCategory = { id: Date.now(), name: newCategoryName, image: '' };
+            const updatedCategories = [...allCategories, newCategory]; // Create new array
+
+            const result = await updateData({ categories: updatedCategories }); // Send to DB
+
             if (result) {
-                await loadData();
+                allCategories = updatedCategories; // Update local state on success
+                // Re-render UI from local state
+                renderCategories(allCategories);
+                populateCategoryDatalist(allCategories);
                 categoryNameInput.value = '';
+            } else {
+                alert('Gagal menyimpan kategori baru.');
             }
         });
     }
@@ -394,16 +409,29 @@ document.addEventListener('DOMContentLoaded', () => {
                     confirmMessage += `\n\n${productsUsingCategory} produk yang menggunakan kategori ini akan diubah menjadi "Tidak Berkategori".`;
                 }
                 if (confirm(confirmMessage)) {
-                    const updatedCategories = allCategories.filter(cat => cat.name !== categoryToDelete);
+                    // 1. Prepare updated product list
                     const updatedProducts = allProducts.map(p => {
                         if (p.category === categoryToDelete) {
                             return { ...p, category: 'Uncategorized' };
                         }
                         return p;
                     });
+
+                    // 2. Prepare updated category list
+                    const updatedCategories = allCategories.filter(cat => cat.name !== categoryToDelete);
+
+                    // 3. Send both product and category changes to the server
                     const result = await updateData({ products: updatedProducts, categories: updatedCategories });
+
                     if (result) {
-                        await loadData();
+                        // 4. On success, update local state for both products and categories
+                        allProducts = updatedProducts;
+                        allCategories = updatedCategories;
+                        
+                        // 5. Re-render everything from local state
+                        renderProducts(allProducts);
+                        renderCategories(allCategories);
+                        populateCategoryDatalist(allCategories);
                     }
                 }
             }
