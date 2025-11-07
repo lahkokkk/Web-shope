@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 localStorage.setItem('currentUser', JSON.stringify(result.user));
-                window.location.href = '/akun.html';
+                window.location.href = 'akun.html';
 
             } catch (error) {
                 if (errorMessageElement) errorMessageElement.textContent = error.message;
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 
                 localStorage.setItem('currentUser', JSON.stringify(result.user));
-                window.location.href = '/akun.html';
+                window.location.href = 'akun.html';
 
             } catch (error) {
                 if (errorMessageElement) errorMessageElement.textContent = error.message;
@@ -124,7 +124,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function handleAccountPage() {
         if (!currentUser) {
-            window.location.href = '/login.html';
+            window.location.href = 'login.html';
             return;
         }
 
