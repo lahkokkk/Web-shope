@@ -490,7 +490,6 @@ main {
 }
 
 .category-toggle-btn {
-    display: none; /* Hidden by default, shown on mobile */
     width: 100%;
     background-color: var(--bg-secondary);
     color: var(--text-primary);
@@ -547,5 +546,11 @@ main {
         text-align: left;
         border-radius: 4px;
         justify-content: flex-start;
+    }
+}
+
+@media (min-width: 768px) {
+    .category-toggle-btn {
+        display: none;
     }
 }
