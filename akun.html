@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akun Saya - Aika Shop</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <nav>
+             <div class="container">
+                <a href="index.html" class="logo">Aika Shop</a>
+                <div class="header-nav">
+                    <a href="index.html">Lanjut Belanja</a>
+                    <a href="cart.html" class="cart-icon">
+                         <svg class="h-8 w-8" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" width="28" height="28"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                         <span id="cart-count" class="hidden">0</span>
+                    </a>
+                    <button class="theme-toggle-btn">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 id="welcome-message" class="mb-6">Selamat Datang!</h1>
+        <div class="card">
+            <h2 class="mb-4">Panel Pengguna</h2>
+            <p class="mb-4">Di sini Anda dapat melihat riwayat pesanan, mengelola alamat, dan memperbarui detail profil Anda.</p>
+            <p><em>(Fitur ini sedang dalam pengembangan)</em></p>
+            <button id="logout-btn" class="btn btn-danger mt-6">Keluar</button>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer style="background-color: var(--bg-secondary); margin-top: 3rem; padding: 2rem 0;">
+        <div class="container text-center">
+            <p>&copy; 2024 Aika Shop. Hak cipta dilindungi undang-undang.</p>
+        </div>
+    </footer>
+
+    <script src="js/theme.js" defer></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

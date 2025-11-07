@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Aika Shop</title>
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="site-header">
+        <nav>
+             <div class="container">
+                <a href="index.html" class="logo">Aika Shop</a>
+                <div class="header-nav">
+                     <a href="index.html">Kembali ke Toko</a>
+                     <button class="theme-toggle-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container" style="display: flex; justify-content: center; align-items: center; flex-grow: 1;">
+        <div class="card" style="width: 100%; max-width: 450px;">
+            <h2 class="text-center mb-6">Login Pengguna</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Kata Sandi</label>
+                    <input type="password" id="password" name="password" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Masuk</button>
+                <p id="error-message" class="text-center" style="color: #dc2626; margin-top: 1rem;"></p>
+            </form>
+            <p class="text-center mt-4">Belum punya akun? <a href="register.html" style="color: var(--accent-primary);">Daftar di sini</a></p>
+        </div>
+    </main>
+
+    <script src="js/theme.js" defer></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
