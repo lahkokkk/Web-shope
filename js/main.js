@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartCountElement = document.getElementById('cart-count');
     const searchInput = document.getElementById('search-input');
     const categoryFiltersContainer = document.getElementById('category-filters');
+    const categoryToggleBtn = document.getElementById('category-toggle-btn');
+    const selectedCategoryName = document.getElementById('selected-category-name');
 
     // Modal elements
     const productModal = document.getElementById('product-modal');
@@ -94,6 +96,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 ${category}
             </button>
         `).join('');
+        
+        if (selectedCategoryName) {
+            selectedCategoryName.textContent = 'Semua';
+        }
     }
 
     function updateProductDisplay() {
@@ -151,6 +157,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const buttons = categoryFiltersContainer.querySelectorAll('.category-btn');
                 buttons.forEach(btn => btn.classList.remove('active'));
                 targetButton.classList.add('active');
+                
+                if (selectedCategoryName) {
+                    selectedCategoryName.textContent = currentCategory;
+                }
+
+                if (window.innerWidth < 768) {
+                     categoryFiltersContainer.classList.remove('show');
+                }
+
                 updateProductDisplay();
             }
         });
@@ -195,6 +210,21 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal(); 
         });
     }
+
+    if (categoryToggleBtn) {
+        categoryToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            categoryFiltersContainer.classList.toggle('show');
+        });
+    }
+
+    document.addEventListener('click', (e) => {
+        if (categoryFiltersContainer && categoryFiltersContainer.classList.contains('show')) {
+            if (!categoryFiltersContainer.contains(e.target) && !categoryToggleBtn.contains(e.target)) {
+                categoryFiltersContainer.classList.remove('show');
+            }
+        }
+    });
 
     // --- Initial Load ---
     updateCartCount();

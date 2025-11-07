@@ -152,8 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const currentPage = window.location.pathname.split('/').pop();
-    if (currentPage === 'akun.html') {
+    // This is a more robust way to check if we are on the account page.
+    // Checking for a unique element is better than checking window.location.pathname,
+    // which can be inconsistent on different servers (e.g., /akun vs /akun.html on GitHub Pages).
+    if (welcomeMessage) {
         handleAccountPage();
     }
     

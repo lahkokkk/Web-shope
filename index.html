@@ -34,9 +34,15 @@
 
     <!-- Main Content -->
     <main class="container">
-        <h2 class="mb-4 text-center" style="font-size: 1.5rem; font-weight: bold;">Kategori Produk</h2>
-        <div id="category-filters" class="category-filters">
-            <!-- Category buttons will be injected here -->
+        <div class="category-container">
+            <h2 class="mb-4 text-center category-title-desktop">Kategori Produk</h2>
+            <button id="category-toggle-btn" class="category-toggle-btn">
+                <span id="selected-category-name">Semua</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div id="category-filters" class="category-filters">
+                <!-- Category buttons will be injected here -->
+            </div>
         </div>
 
         <h2 class="mb-6 mt-6" style="font-size: 1.8rem; font-weight: bold;">Produk Kami</h2>
