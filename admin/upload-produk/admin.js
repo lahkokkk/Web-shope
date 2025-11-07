@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // --- KONSTANTA ---
-    const ADMIN_API_URL = 'https://jsonbin-clone.bisay510.workers.dev/01cb6930-6d66-4c5e-8bf0-dc46f078f34d';
-    const PRODUCT_API_URL = 'https://my-worker.lahkok204.workers.dev/';
+    const ADMIN_API_URL = 'https://jsonbin-clone.bisay510.workers.dev/9cfdb61d-3848-47eb-a9cd-9385a90adc2f';
+    const PRODUCT_API_URL = 'https://jsonbin-clone.bisay510.workers.dev/41306972-876d-42bf-8e33-4373603bbf50';
     const IMGBB_API_KEY = '9403588ce6030b29b5e1c76c171049dc';
 
 
