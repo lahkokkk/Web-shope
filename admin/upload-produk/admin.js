@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const storedEmailHash = adminData.email;
                 const storedPasswordHash = adminData.password;
 
-                const enteredEmailHash = await sha256Hex(email + adminData.email_salt);
-                const enteredPasswordHash = await sha256Hex(password + adminData.password_salt);
+                const enteredEmailHash = await sha256Hex(adminData.email_salt + email);
+                const enteredPasswordHash = await sha256Hex(adminData.password_salt + password);
 
                 if (enteredEmailHash === storedEmailHash && enteredPasswordHash === storedPasswordHash) {
                     localStorage.setItem('isAdminLoggedIn', 'true');
@@ -418,9 +418,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.classList.contains('delete-category-btn')) {
                 const categoryToDelete = e.target.dataset.category;
                 const productsUsingCategory = allProducts.filter(p => p.category === categoryToDelete).length;
-                let confirmMessage = `Apakah Anda yakin ingin menghapus kategori "${categoryToDelete}"?`;
+                let confirmMessage = `Apakah Anda yakin ingin menghapus kategori \"${categoryToDelete}\"?`;
                 if (productsUsingCategory > 0) {
-                    confirmMessage += `\n\n${productsUsingCategory} produk yang menggunakan kategori ini akan diubah menjadi "Tidak Berkategori".`;
+                    confirmMessage += `\n\n${productsUsingCategory} produk yang menggunakan kategori ini akan diubah menjadi \"Tidak Berkategori\".`;
                 }
                 if (confirm(confirmMessage)) {
 
