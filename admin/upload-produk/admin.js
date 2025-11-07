@@ -1,39 +1,50 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- SHA-256 Hashing function ---
+
+    /**
+     * Menghasilkan hash SHA-256 dari sebuah string.
+     * @param {string} str String yang akan di-hash.
+     * @returns {Promise<string>} Hash dalam format heksadesimal.
+     */
     async function sha256Hex(str) {
         const encoder = new TextEncoder();
         const data = encoder.encode(str);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('').join('');
+        // PERBAIKAN: Menghapus .join('') yang berlebihan.
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Constants and variables
+
+    // --- KONSTANTA ---
     const ADMIN_API_URL = 'https://jsonbin-clone.bisay510.workers.dev/01cb6930-6d66-4c5e-8bf0-dc46f078f34d';
     const PRODUCT_API_URL = 'https://my-worker.lahkok204.workers.dev/';
     const IMGBB_API_KEY = '9403588ce6030b29b5e1c76c171049dc';
 
-    // Auth elements
+
+    // --- ELEMEN DOM (LOGIN & KONTEN ADMIN) ---
     const loginOverlay = document.getElementById('login-overlay');
     const loginForm = document.getElementById('login-form');
     const errorMessage = document.getElementById('error-message');
     const adminContent = document.getElementById('admin-content');
 
-    // Admin panel elements
+
+    // --- ELEMEN DOM (PANEL ADMIN) ---
     const logoutBtn = document.getElementById('logout-btn');
     const productForm = document.getElementById('product-form');
     const productListContainer = document.getElementById('product-list');
     const formTitle = document.getElementById('form-title');
     const cancelEditBtn = document.getElementById('cancel-edit-btn');
-    const productCategoryInput = document.getElementById('category'); // Changed from Select
-    const categorySuggestions = document.getElementById('category-suggestions'); // Datalist
+    const productCategoryInput = document.getElementById('category');
+    const categorySuggestions = document.getElementById('category-suggestions');
 
-    // Category management elements
+
+    // --- ELEMEN DOM (KATEGORI) ---
     const categoryForm = document.getElementById('category-form');
     const categoryNameInput = document.getElementById('category-name');
     const categoryListContainer = document.getElementById('category-list');
 
-    // Image Upload Elements
+
+    // --- ELEMEN DOM (UPLOAD GAMBAR) ---
     const imageUploadInput = document.getElementById('image-upload');
     const imagePreview = document.getElementById('image-preview');
     const imageHiddenInput = document.getElementById('image');
@@ -42,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let allProducts = [];
     let allCategories = [];
 
-    // --- Authentication ---
+
+    // --- FUNGSI OTENTIKASI ---
     function checkAuth() {
         if (localStorage.getItem('isAdminLoggedIn') === 'true') {
             showAdminPanel();
@@ -54,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function showAdminPanel() {
         if (loginOverlay) loginOverlay.classList.add('hidden');
         if (adminContent) adminContent.classList.remove('hidden');
-        loadData(); // Load all data only after authentication
+        loadData();
     }
 
     function showLoginModal() {
@@ -65,9 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const email = e.target.email.value.trim();
-            const password = e.target.password.value;
+
+            // PERBAIKAN: Menambahkan .toLowerCase() pada email dan .trim() pada password
+            const email = e.target.email.value.trim().toLowerCase();
+            const password = e.target.password.value.trim();
             const submitButton = loginForm.querySelector('button[type="submit"]');
 
             submitButton.disabled = true;
@@ -77,21 +90,19 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch(ADMIN_API_URL);
                 if (!response.ok) throw new Error('Gagal terhubung ke layanan otentikasi.');
-                
+
                 const data = await response.json();
                 const adminData = (Array.isArray(data) ? data[0] : data) || {};
-                
+
                 if (!adminData || !adminData.email || !adminData.password || !adminData.email_salt || !adminData.password_salt) {
                     throw new Error('Kredensial admin atau struktur data di database tidak lengkap.');
                 }
 
                 const storedEmailHash = adminData.email;
                 const storedPasswordHash = adminData.password;
-                const emailSalt = adminData.email_salt;
-                const passwordSalt = adminData.password_salt;
 
-                const enteredEmailHash = await sha256Hex(emailSalt + email);
-                const enteredPasswordHash = await sha256Hex(passwordSalt + password);
+                const enteredEmailHash = await sha256Hex(email + adminData.email_salt);
+                const enteredPasswordHash = await sha256Hex(password + adminData.password_salt);
 
                 if (enteredEmailHash === storedEmailHash && enteredPasswordHash === storedPasswordHash) {
                     localStorage.setItem('isAdminLoggedIn', 'true');
@@ -110,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Logout functionality
+
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             localStorage.removeItem('isAdminLoggedIn');
@@ -118,7 +129,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- API Functions ---
+
+    // --- FUNGSI MANAJEMEN DATA (CRUD) ---
     async function fetchData() {
         try {
             const response = await fetch(PRODUCT_API_URL);
@@ -126,8 +138,8 @@ document.addEventListener('DOMContentLoaded', () => {
             return await response.json();
         } catch (error) {
             console.error('Fetch error:', error);
-            if(productListContainer) productListContainer.innerHTML = '<tr><td colspan="4" class="text-center">Gagal memuat data.</td></tr>';
-            return [{}]; // Return object with empty data on error
+            if (productListContainer) productListContainer.innerHTML = '<tr><td colspan="4" class="text-center">Gagal memuat data.</td></tr>';
+            return [{}];
         }
     }
 
@@ -159,7 +171,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Rendering Functions ---
+
+    // --- FUNGSI RENDER TAMPILAN ---
     function renderProducts(products) {
         if (!productListContainer) return;
         productListContainer.innerHTML = '';
@@ -210,21 +223,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!categorySuggestions) return;
         categorySuggestions.innerHTML = '';
         categories.sort((a, b) => a.name.localeCompare(b.name)).forEach(cat => {
-            if (cat.name === 'Uncategorized') return; // Don't add 'Uncategorized' as a suggestion
+            if (cat.name === 'Uncategorized') return;
             const option = document.createElement('option');
             option.value = cat.name;
             categorySuggestions.appendChild(option);
         });
     }
 
-    // --- Image Upload Handling ---
+
+    // --- EVENT LISTENER (UPLOAD GAMBAR) ---
     if (imageUploadInput) {
         imageUploadInput.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
             if (uploadStatus) uploadStatus.textContent = 'Mengunggah gambar...';
             const submitButton = productForm.querySelector('button[type="submit"]');
-            if(submitButton) submitButton.disabled = true;
+            if (submitButton) submitButton.disabled = true;
             const formData = new FormData();
             formData.append('image', file);
             try {
@@ -249,12 +263,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (uploadStatus) uploadStatus.textContent = `Error: ${error.message}`;
                 if (imageUploadInput) imageUploadInput.value = '';
             } finally {
-                if(submitButton) submitButton.disabled = false;
+                if (submitButton) submitButton.disabled = false;
             }
         });
     }
 
-    // --- Form Handling ---
+
+    // --- EVENT LISTENER (FORM PRODUK & KATEGORI) ---
     if (productForm) {
         productForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -288,28 +303,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 updatedProducts = [...allProducts, newProduct];
             }
 
-            let updatedCategories = [...allCategories]; // Make a copy
-            // Check for new category and update category list if needed
+            let updatedCategories = [...allCategories];
+
             const isNewCategory = finalCategory !== 'Uncategorized' && !updatedCategories.some(cat => cat.name.toLowerCase() === finalCategory.toLowerCase());
 
             if (isNewCategory) {
                 updatedCategories.push({ id: Date.now(), name: finalCategory, image: '' });
             }
-            
-            // Update both products and categories in the database
+
+
             const dataToUpdate = { products: updatedProducts, categories: updatedCategories };
-            
+
             const result = await updateData(dataToUpdate);
             if (result) {
-                // On success, update our local state to match what we sent
                 allProducts = updatedProducts;
                 allCategories = updatedCategories;
-                
-                // Now re-render everything using the latest local state
+
                 renderProducts(allProducts);
                 renderCategories(allCategories);
                 populateCategoryDatalist(allCategories);
-                
+
                 resetForm();
             }
         });
@@ -328,13 +341,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             const newCategory = { id: Date.now(), name: newCategoryName, image: '' };
-            const updatedCategories = [...allCategories, newCategory]; // Create new array
+            const updatedCategories = [...allCategories, newCategory];
 
-            const result = await updateData({ categories: updatedCategories }); // Send to DB
+            const result = await updateData({ categories: updatedCategories });
 
             if (result) {
-                allCategories = updatedCategories; // Update local state on success
-                // Re-render UI from local state
+                allCategories = updatedCategories;
+
                 renderCategories(allCategories);
                 populateCategoryDatalist(allCategories);
                 categoryNameInput.value = '';
@@ -348,14 +361,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!productForm) return;
         productForm.reset();
         document.getElementById('product-id').value = '';
-        if(imageHiddenInput) imageHiddenInput.value = '';
-        if(imageUploadInput) imageUploadInput.value = null;
-        if(imagePreview) {
+        if (imageHiddenInput) imageHiddenInput.value = '';
+        if (imageUploadInput) imageUploadInput.value = null;
+        if (imagePreview) {
             imagePreview.src = '';
             imagePreview.classList.add('hidden');
         }
-        if(uploadStatus) uploadStatus.textContent = '';
-        if(productCategoryInput) productCategoryInput.value = ''; // Reset text input
+        if (uploadStatus) uploadStatus.textContent = '';
+        if (productCategoryInput) productCategoryInput.value = '';
         if (formTitle) formTitle.textContent = 'Tambah Produk Baru';
         if (cancelEditBtn) cancelEditBtn.classList.add('hidden');
     }
@@ -364,7 +377,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cancelEditBtn.addEventListener('click', resetForm);
     }
 
-    // --- Event Delegation ---
+
+    // --- EVENT LISTENER (AKSI PADA LIST) ---
     if (productListContainer) {
         productListContainer.addEventListener('click', async (e) => {
             const target = e.target;
@@ -384,14 +398,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('image').value = product.image;
                 document.getElementById('description').value = product.description;
                 document.getElementById('category').value = product.category === 'Uncategorized' ? '' : product.category;
-                
-                if(imagePreview && product.image) {
+
+                if (imagePreview && product.image) {
                     imagePreview.src = product.image;
                     imagePreview.classList.remove('hidden');
                 } else if (imagePreview) {
                     imagePreview.classList.add('hidden');
                 }
-                if(uploadStatus) uploadStatus.textContent = 'Anda bisa mengunggah gambar baru untuk menggantinya.';
+                if (uploadStatus) uploadStatus.textContent = 'Anda bisa mengunggah gambar baru untuk menggantinya.';
                 if (formTitle) formTitle.textContent = 'Edit Produk';
                 if (cancelEditBtn) cancelEditBtn.classList.remove('hidden');
                 window.scrollTo(0, 0);
@@ -409,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     confirmMessage += `\n\n${productsUsingCategory} produk yang menggunakan kategori ini akan diubah menjadi "Tidak Berkategori".`;
                 }
                 if (confirm(confirmMessage)) {
-                    // 1. Prepare updated product list
+
                     const updatedProducts = allProducts.map(p => {
                         if (p.category === categoryToDelete) {
                             return { ...p, category: 'Uncategorized' };
@@ -417,18 +431,14 @@ document.addEventListener('DOMContentLoaded', () => {
                         return p;
                     });
 
-                    // 2. Prepare updated category list
                     const updatedCategories = allCategories.filter(cat => cat.name !== categoryToDelete);
 
-                    // 3. Send both product and category changes to the server
                     const result = await updateData({ products: updatedProducts, categories: updatedCategories });
 
                     if (result) {
-                        // 4. On success, update local state for both products and categories
                         allProducts = updatedProducts;
                         allCategories = updatedCategories;
-                        
-                        // 5. Re-render everything from local state
+
                         renderProducts(allProducts);
                         renderCategories(allCategories);
                         populateCategoryDatalist(allCategories);
@@ -438,7 +448,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Initial Load Function ---
+
+    // --- INISIALISASI ---
     async function loadData() {
         const data = await fetchData();
         const rootData = (Array.isArray(data) ? data[0] : data) || {};
@@ -449,6 +460,6 @@ document.addEventListener('DOMContentLoaded', () => {
         populateCategoryDatalist(allCategories);
     }
 
-    // --- Start Application ---
+    // Memulai pengecekan otentikasi saat halaman dimuat
     checkAuth();
 });

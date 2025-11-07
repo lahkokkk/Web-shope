@@ -1,8 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Main App Logic ---
+    
     const API_URL = 'https://my-worker.lahkok204.workers.dev/';
 
-    // Page elements
+    
     const productGrid = document.getElementById('product-grid');
     const loadingIndicator = document.getElementById('loading');
     const cartCountElement = document.getElementById('cart-count');
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryToggleBtn = document.getElementById('category-toggle-btn');
     const selectedCategoryName = document.getElementById('selected-category-name');
 
-    // Modal elements
+    
     const productModal = document.getElementById('product-modal');
     const modalCloseBtn = document.getElementById('modal-close-btn');
     const modalImg = document.getElementById('modal-img');
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCategory = 'Semua';
     let currentSearchTerm = '';
 
-    // --- Cart Functions ---
+    
     function updateCartCount() {
         if (!cartCountElement) return;
         if (cart.length > 0) {
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Modal Functions ---
+    
     function openModal(productId) {
         const product = allProducts.find(p => p.id.toString() === productId.toString());
         if (!product || !productModal) return;
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // --- Data Fetching and Display ---
+    
     async function fetchProducts() {
         try {
             const response = await fetch(API_URL);
@@ -105,12 +105,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateProductDisplay() {
         let productsToDisplay = allProducts;
 
-        // 1. Filter by category
+        
         if (currentCategory !== 'Semua') {
             productsToDisplay = productsToDisplay.filter(p => p.category === currentCategory);
         }
 
-        // 2. Filter by search term
+        
         if (currentSearchTerm) {
             const searchTerm = currentSearchTerm.toLowerCase();
             productsToDisplay = productsToDisplay.filter(product =>
@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Event Listeners ---
+    
     if (categoryFiltersContainer) {
         categoryFiltersContainer.addEventListener('click', e => {
             const targetButton = e.target.closest('.category-btn');
@@ -180,15 +180,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (productGrid) {
         productGrid.addEventListener('click', (e) => {
-            // Check for Add to Cart button click
+            
             const addToCartBtn = e.target.closest('.add-to-cart-btn');
             if (addToCartBtn) {
                 const productId = addToCartBtn.dataset.id;
                 addToCart(productId);
-                return; // Exit after handling button click
+                return; 
             }
 
-            // If not a button click, check for card click
+            
             const productCard = e.target.closest('.product-card');
             if (productCard) {
                 const productId = productCard.dataset.id;
@@ -226,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- Initial Load ---
+    
     updateCartCount();
     fetchProducts();
 });

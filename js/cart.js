@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // --- Cart Page Logic ---
+    
     const cartItemsContainer = document.getElementById('cart-items-container');
     const cartSubtotalElement = document.getElementById('cart-subtotal');
     const cartTotalElement = document.getElementById('cart-total');
@@ -44,18 +44,18 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateSummary(subtotal) {
         const formattedSubtotal = `Rp${subtotal.toLocaleString('id-ID')}`;
         if (cartSubtotalElement) cartSubtotalElement.textContent = formattedSubtotal;
-        if (cartTotalElement) cartTotalElement.textContent = formattedSubtotal; // Assuming no other costs for now
+        if (cartTotalElement) cartTotalElement.textContent = formattedSubtotal; 
     }
     
     function removeFromCart(indexToRemove) {
         cart = cart.filter((_, index) => index !== indexToRemove);
         localStorage.setItem('cart', JSON.stringify(cart));
         renderCart();
-        // Also update the count in the header if it exists on another page
+        
         updateCartCountHeader(); 
     }
 
-    // This function is for other pages, but good to have a single source of truth
+    
     function updateCartCountHeader() {
         const cartCountElement = document.getElementById('cart-count');
         if (!cartCountElement) return;
@@ -77,6 +77,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Initial Load ---
+    
     renderCart();
 });

@@ -1,28 +1,21 @@
-/**
- * =================================================================
- * KODE AUTH.JS LENGKAP - (SOLUSI CEPAT)
- * Ganti seluruh isi file Anda dengan ini.
- * =================================================================
- */
-
 document.addEventListener('DOMContentLoaded', () => {
-    // ▼▼▼ GANTI URL INI DENGAN URL WORKER ANDA ▼▼▼
+    
     const API_BASE_URL = 'https://user-shope.lahkok204.workers.dev'; 
-    // ▲▲▲ PASTIKAN TIDAK ADA TANDA / DI AKHIR ▲▲▲
+    
 
-    // --- UI Elements ---
+    
     const userAuthLinkContainer = document.getElementById('user-auth-link-container');
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
     const errorMessageElement = document.getElementById('error-message');
     
-    // Account page elements
+    
     const welcomeMessage = document.getElementById('welcome-message');
     const logoutBtn = document.getElementById('logout-btn');
 
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-    // --- Auth Logic (Frontend yang Aman) ---
+    
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
@@ -36,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (errorMessageElement) errorMessageElement.textContent = '';
 
             try {
-                // Menggunakan URL lengkap untuk fetch
+                
                 const response = await fetch(`${API_BASE_URL}/api/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -79,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (errorMessageElement) errorMessageElement.textContent = '';
             
             try {
-                // Menggunakan URL lengkap untuk fetch
+                
                 const response = await fetch(`${API_BASE_URL}/api/register`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -103,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- UI & Page Logic (Tidak Perlu Diubah) ---
+    
 
     function updateAuthUI() {
         if (!userAuthLinkContainer) return;
@@ -123,14 +116,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function handleAccountPage() {
-        // If there's no user or the user object is invalid, redirect to login
+        
         if (!currentUser || !currentUser.email) {
-            localStorage.removeItem('currentUser'); // Clean up bad data
+            localStorage.removeItem('currentUser'); 
             window.location.href = 'login.html';
             return;
         }
 
-        // New elements for the profile panel
+        
         const profileName = document.getElementById('profile-name');
         const profileEmail = document.getElementById('profile-email');
 
@@ -152,9 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // This is a more robust way to check if we are on the account page.
-    // Checking for a unique element is better than checking window.location.pathname,
-    // which can be inconsistent on different servers (e.g., /akun vs /akun.html on GitHub Pages).
+    
+    
     if (welcomeMessage) {
         handleAccountPage();
     }
