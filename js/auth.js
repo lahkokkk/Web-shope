@@ -123,7 +123,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function handleAccountPage() {
-        if (!currentUser) {
+        // If there's no user or the user object is invalid, redirect to login
+        if (!currentUser || !currentUser.email) {
+            localStorage.removeItem('currentUser'); // Clean up bad data
             window.location.href = 'login.html';
             return;
         }
