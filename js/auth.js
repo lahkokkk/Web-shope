@@ -127,13 +127,25 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = '/login.html';
             return;
         }
+
+        // New elements for the profile panel
+        const profileName = document.getElementById('profile-name');
+        const profileEmail = document.getElementById('profile-email');
+
         if (welcomeMessage) {
             welcomeMessage.textContent = `Selamat Datang, ${currentUser.name}!`;
         }
+        if (profileName) {
+            profileName.textContent = currentUser.name;
+        }
+        if (profileEmail) {
+            profileEmail.textContent = currentUser.email;
+        }
+        
         if (logoutBtn) {
             logoutBtn.addEventListener('click', () => {
                 localStorage.removeItem('currentUser');
-                window.location.href = '/index.html';
+                window.location.href = 'index.html';
             });
         }
     }
